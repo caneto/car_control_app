@@ -87,7 +87,32 @@ class _AddCarroScreenState extends State<AddCarroScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-
+Row(
+                children: [
+                  Expanded(
+                    child: _buildInput(
+                      controller: _anoController,
+                      label: 'Ano',
+                      icon: Icons.calendar_today,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value!.isEmpty) return 'Informe o ano';
+                        if (int.tryParse(value) == null) return 'Inválido';
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildInput(
+                      controller: _placaController,
+                      label: 'Placa',
+                      icon: Icons.tag,
+                      validator: (value) => value!.length < 7 ? 'Placa incompleta' : null,
+                    ),
+                  ),
+                ],
+              ),
               // ... Inputs de Modelo, Marca, Ano ...
 
               // --- INPUT DE PLACA COM SCANNER ---
@@ -129,5 +154,39 @@ class _AddCarroScreenState extends State<AddCarroScreen> {
         ),
       ),
     );
+  }
+
+  // Método auxiliar para criar inputs bonitos
+  Widget _buildInput({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    String? Function(String?)? validator,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        filled: true,
+        fillColor: Colors.grey.shade100,
+      ),
+      keyboardType: keyboardType,
+      validator: validator,
+    );
+  }
+
+  void _saveCarro() {
+    if (_formKey.currentState!.validate()) {
+      Provider.of<CarroProvider>(context, listen: false).addCarro(
+        _modeloController.text,
+        _marcaController.text,
+        int.parse(_anoController.text),
+        _placaController.text,
+      );
+      context.pop(); // Volta para a Home
+    }
   }
 }

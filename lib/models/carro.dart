@@ -6,7 +6,9 @@ part 'carro.g.dart';
 class Carro {
   Id id = Isar.autoIncrement;
 
+  @Index(type: IndexType.value) // Adiciona índice para buscas rápidas
   late String modelo;
+  @Index(type: IndexType.value) 
   late String marca;
   late int ano;
   late String placa;

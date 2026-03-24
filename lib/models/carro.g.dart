@@ -33,7 +33,34 @@ const CarroSchema = CollectionSchema(
   deserialize: _carroDeserialize,
   deserializeProp: _carroDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'modelo': IndexSchema(
+      id: -2225761680297129587,
+      name: r'modelo',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'modelo',
+          type: IndexType.value,
+          caseSensitive: true,
+        ),
+      ],
+    ),
+    r'marca': IndexSchema(
+      id: 4520535923003183001,
+      name: r'marca',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'marca',
+          type: IndexType.value,
+          caseSensitive: true,
+        ),
+      ],
+    ),
+  },
   links: {},
   embeddedSchemas: {},
 
@@ -131,6 +158,22 @@ extension CarroQueryWhereSort on QueryBuilder<Carro, Carro, QWhere> {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
+
+  QueryBuilder<Carro, Carro, QAfterWhere> anyModelo() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'modelo'),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhere> anyMarca() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'marca'),
+      );
+    });
+  }
 }
 
 extension CarroQueryWhere on QueryBuilder<Carro, Carro, QWhereClause> {
@@ -199,6 +242,298 @@ extension CarroQueryWhere on QueryBuilder<Carro, Carro, QWhereClause> {
           includeUpper: includeUpper,
         ),
       );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> modeloEqualTo(String modelo) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'modelo', value: [modelo]),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> modeloNotEqualTo(
+    String modelo,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'modelo',
+                lower: [],
+                upper: [modelo],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'modelo',
+                lower: [modelo],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'modelo',
+                lower: [modelo],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'modelo',
+                lower: [],
+                upper: [modelo],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> modeloGreaterThan(
+    String modelo, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'modelo',
+          lower: [modelo],
+          includeLower: include,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> modeloLessThan(
+    String modelo, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'modelo',
+          lower: [],
+          upper: [modelo],
+          includeUpper: include,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> modeloBetween(
+    String lowerModelo,
+    String upperModelo, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'modelo',
+          lower: [lowerModelo],
+          includeLower: includeLower,
+          upper: [upperModelo],
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> modeloStartsWith(
+    String ModeloPrefix,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'modelo',
+          lower: [ModeloPrefix],
+          upper: ['$ModeloPrefix\u{FFFFF}'],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> modeloIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'modelo', value: ['']),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> modeloIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.lessThan(indexName: r'modelo', upper: ['']),
+            )
+            .addWhereClause(
+              IndexWhereClause.greaterThan(indexName: r'modelo', lower: ['']),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.greaterThan(indexName: r'modelo', lower: ['']),
+            )
+            .addWhereClause(
+              IndexWhereClause.lessThan(indexName: r'modelo', upper: ['']),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> marcaEqualTo(String marca) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'marca', value: [marca]),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> marcaNotEqualTo(String marca) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'marca',
+                lower: [],
+                upper: [marca],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'marca',
+                lower: [marca],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'marca',
+                lower: [marca],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'marca',
+                lower: [],
+                upper: [marca],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> marcaGreaterThan(
+    String marca, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'marca',
+          lower: [marca],
+          includeLower: include,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> marcaLessThan(
+    String marca, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'marca',
+          lower: [],
+          upper: [marca],
+          includeUpper: include,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> marcaBetween(
+    String lowerMarca,
+    String upperMarca, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'marca',
+          lower: [lowerMarca],
+          includeLower: includeLower,
+          upper: [upperMarca],
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> marcaStartsWith(
+    String MarcaPrefix,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'marca',
+          lower: [MarcaPrefix],
+          upper: ['$MarcaPrefix\u{FFFFF}'],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> marcaIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'marca', value: ['']),
+      );
+    });
+  }
+
+  QueryBuilder<Carro, Carro, QAfterWhereClause> marcaIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.lessThan(indexName: r'marca', upper: ['']),
+            )
+            .addWhereClause(
+              IndexWhereClause.greaterThan(indexName: r'marca', lower: ['']),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.greaterThan(indexName: r'marca', lower: ['']),
+            )
+            .addWhereClause(
+              IndexWhereClause.lessThan(indexName: r'marca', upper: ['']),
+            );
+      }
     });
   }
 }
